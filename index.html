@@ -9,7 +9,6 @@
 <title>LAST WORD</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
     --bg: #0f0f0f;
     --surface: #1a1a1a;
@@ -33,420 +32,265 @@
     --accent-border: rgba(129,140,248,0.3);
     --radius: 10px;
   }
-
   html, body {
-    height: 100%;
-    background: var(--bg);
-    color: var(--text);
+    height: 100%; background: var(--bg); color: var(--text);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    overscroll-behavior: none;
+    -webkit-font-smoothing: antialiased; overscroll-behavior: none;
   }
+  body { display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
 
-  body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    padding: env(safe-area-inset-top, 0) 0 env(safe-area-inset-bottom, 0);
-  }
-
-  /* ── SCREENS ── */
   .screen { display: none; width: 100%; max-width: 480px; padding: 0 20px; }
   .screen.active { display: flex; flex-direction: column; }
 
   /* ── START SCREEN ── */
   #screen-start {
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    gap: 0;
-    text-align: center;
+    align-items: center; justify-content: center;
+    min-height: 100vh; gap: 0; text-align: center;
   }
-  .start-logo {
-    font-size: 13px;
-    letter-spacing: 6px;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-  }
-  .start-title {
-    font-size: 52px;
-    font-weight: 700;
-    letter-spacing: -2px;
-    line-height: 1;
-    margin-bottom: 2rem;
-  }
+  .start-logo { font-size: 13px; letter-spacing: 6px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 1.2rem; }
+  .start-title { font-size: 52px; font-weight: 700; letter-spacing: -2px; line-height: 1; margin-bottom: 1.6rem; }
   .start-title span { color: var(--red); }
 
-  .start-rules {
-    background: var(--surface);
+  /* Difficulty picker */
+  .diff-label { font-size: 11px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; }
+  .diff-row { display: flex; gap: 8px; width: 100%; margin-bottom: 1.6rem; }
+  .diff-btn {
+    flex: 1; padding: 12px 6px; border-radius: var(--radius);
     border: 0.5px solid var(--border-strong);
-    border-radius: 16px;
-    padding: 24px;
-    margin-bottom: 2rem;
-    text-align: left;
-    width: 100%;
+    background: var(--surface); color: var(--text-sub);
+    font-size: 13px; font-weight: 500; cursor: pointer;
+    transition: all 0.15s; line-height: 1.4;
+  }
+  .diff-btn small { display: block; font-size: 10px; color: var(--text-muted); margin-top: 3px; }
+  .diff-btn.selected { border-color: var(--accent-border); background: var(--accent-bg); color: var(--accent); }
+
+  .start-rules {
+    background: var(--surface); border: 0.5px solid var(--border-strong);
+    border-radius: 16px; padding: 20px; margin-bottom: 1.6rem; text-align: left; width: 100%;
   }
   .rule-item {
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-    padding: 10px 0;
-    border-bottom: 0.5px solid var(--border);
-    font-size: 14px;
-    line-height: 1.5;
-    color: var(--text-sub);
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 9px 0; border-bottom: 0.5px solid var(--border);
+    font-size: 13px; line-height: 1.5; color: var(--text-sub);
   }
   .rule-item:last-child { border-bottom: none; }
   .rule-num {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: var(--surface2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text-muted);
-    flex-shrink: 0;
-    margin-top: 1px;
+    width: 20px; height: 20px; border-radius: 50%; background: var(--surface2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 600; color: var(--text-muted); flex-shrink: 0; margin-top: 1px;
   }
-
   #btn-start {
-    width: 100%;
-    padding: 16px;
-    border-radius: var(--radius);
-    border: none;
-    background: var(--text);
-    color: var(--bg);
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    letter-spacing: 1px;
-    transition: opacity 0.15s;
+    width: 100%; padding: 16px; border-radius: var(--radius); border: none;
+    background: var(--text); color: var(--bg); font-size: 16px; font-weight: 600;
+    cursor: pointer; letter-spacing: 1px; transition: opacity 0.15s; margin-bottom: 10px;
   }
   #btn-start:hover { opacity: 0.88; }
   #btn-start:active { opacity: 0.75; transform: scale(0.98); }
-
-  .keyboard-hint {
-    margin-top: 14px;
-    font-size: 12px;
-    color: var(--text-muted);
-  }
+  .keyboard-hint { font-size: 12px; color: var(--text-muted); }
   .key { display: inline-block; padding: 2px 7px; border: 0.5px solid var(--border-strong); border-radius: 4px; font-family: monospace; }
 
   /* ── GAME SCREEN ── */
-  #screen-game {
-    min-height: 100vh;
-    padding-top: 20px;
-    padding-bottom: 32px;
-    gap: 0;
-  }
-
-  /* Header */
+  #screen-game { min-height: 100vh; padding-top: 20px; padding-bottom: 32px; gap: 0; }
   .game-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 28px;
-    padding-bottom: 16px;
-    border-bottom: 0.5px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 24px; padding-bottom: 14px; border-bottom: 0.5px solid var(--border);
   }
-  .header-logo {
-    font-size: 12px;
-    letter-spacing: 4px;
-    color: var(--text-muted);
-    text-transform: uppercase;
-  }
+  .header-logo { font-size: 12px; letter-spacing: 4px; color: var(--text-muted); text-transform: uppercase; }
   .stats-row { display: flex; gap: 20px; }
   .stat { text-align: right; }
   .stat-val { font-size: 18px; font-weight: 600; color: var(--text); line-height: 1; }
   .stat-lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
 
-  /* Incoming word */
-  .incoming-section { text-align: center; margin-bottom: 24px; }
-  .incoming-label {
-    font-size: 10px;
-    letter-spacing: 2px;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
+  /* Incoming */
+  .incoming-section { text-align: center; margin-bottom: 20px; }
+  .incoming-label { font-size: 10px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; }
   #word-display {
-    font-size: 44px;
-    font-weight: 700;
-    letter-spacing: 8px;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.1s;
+    font-size: 44px; font-weight: 700; letter-spacing: 8px; height: 64px;
+    display: flex; align-items: center; justify-content: center;
   }
-  #word-display.pop { animation: pop 0.18s ease; }
-  @keyframes pop { 0%{transform:scale(0.88);opacity:0.5} 60%{transform:scale(1.04)} 100%{transform:scale(1);opacity:1} }
-  .ch-danger { color: var(--red); }
-  .ch-safe { color: var(--text); }
+  #word-display.pop { animation: pop 0.2s ease; }
+  @keyframes pop { 0%{transform:scale(0.85);opacity:0.4} 60%{transform:scale(1.05)} 100%{transform:scale(1);opacity:1} }
 
-  /* Action buttons */
-  .action-row {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 16px;
-  }
+  /* Letter colour coding on incoming word:
+     red   = already shared between 2+ stack words (danger NOW)
+     amber = exists in stack but not yet shared (danger IF kept) */
+  .ch-danger  { color: var(--red); }
+  .ch-warning { color: var(--amber); }
+  .ch-safe    { color: var(--text); }
+
+  /* Action */
+  .action-row { display: flex; gap: 10px; margin-bottom: 14px; }
   .act-btn {
-    flex: 1;
-    padding: 15px 10px;
-    border-radius: var(--radius);
-    border: 0.5px solid var(--border-strong);
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.12s;
-    background: var(--surface);
-    color: var(--text);
+    flex: 1; padding: 15px 10px; border-radius: var(--radius);
+    border: 0.5px solid var(--border-strong); font-size: 15px; font-weight: 600;
+    cursor: pointer; transition: all 0.12s; background: var(--surface); color: var(--text);
     -webkit-tap-highlight-color: transparent;
   }
   .act-btn:active { transform: scale(0.96); }
-  #btn-keep {
-    border-color: var(--green-border);
-    color: var(--green);
-    background: var(--green-bg);
-  }
+  #btn-keep { border-color: var(--green-border); color: var(--green); background: var(--green-bg); }
   #btn-keep:hover { background: rgba(74,222,128,0.14); }
-  #btn-drop {
-    border-color: var(--red-border);
-    color: var(--red);
-    background: var(--red-bg);
-  }
+  #btn-drop { border-color: var(--red-border); color: var(--red); background: var(--red-bg); }
   #btn-drop:hover { background: rgba(248,113,113,0.14); }
 
-  /* Message bar */
-  #message-bar {
-    height: 20px;
-    text-align: center;
-    font-size: 13px;
-    color: var(--text-muted);
-    margin-bottom: 20px;
-    transition: all 0.2s;
-  }
+  /* Timer bar */
+  #timer-wrap { width: 100%; height: 3px; background: var(--surface2); border-radius: 2px; margin-bottom: 14px; overflow: hidden; display: none; }
+  #timer-bar { height: 100%; background: var(--accent); width: 100%; transition: width linear; border-radius: 2px; }
+  #timer-bar.urgent { background: var(--red); }
+
+  /* Message */
+  #message-bar { height: 20px; text-align: center; font-size: 13px; color: var(--text-muted); margin-bottom: 18px; transition: all 0.2s; }
   #message-bar.good { color: var(--green); }
-  #message-bar.bad { color: var(--red); font-weight: 500; }
+  #message-bar.bad  { color: var(--red); font-weight: 500; }
 
   /* Stack */
-  .stack-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-  }
+  .stack-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
   .stack-label { font-size: 10px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; }
-  .stack-capacity {
-    font-size: 11px;
-    color: var(--text-muted);
-    display: flex;
-    gap: 4px;
-  }
-  .cap-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--surface2);
-    border: 0.5px solid var(--border-strong);
-    transition: all 0.2s;
-  }
+  .stack-capacity { display: flex; gap: 4px; }
+  .cap-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--surface2); border: 0.5px solid var(--border-strong); transition: all 0.2s; }
   .cap-dot.filled { background: var(--accent); border-color: var(--accent); }
+  .cap-dot.warn   { background: var(--amber); border-color: var(--amber); }
   .cap-dot.danger { background: var(--red); border-color: var(--red); }
 
-  #stack-list {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 16px;
-    min-height: 40px;
-  }
+  #stack-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; min-height: 40px; }
+
   .stack-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 16px;
-    background: var(--surface);
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius);
-    transition: all 0.2s;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 16px; background: var(--surface); border: 0.5px solid var(--border);
+    border-radius: var(--radius); transition: border-color 0.2s, background 0.2s;
   }
-  .stack-card.warned {
-    border-color: var(--amber-border);
-    background: var(--amber-bg);
+  .stack-card.warned { border-color: var(--amber-border); background: var(--amber-bg); }
+  .stack-card-word { font-size: 16px; font-weight: 600; letter-spacing: 4px; }
+  .stack-card-meta { font-size: 11px; color: var(--text-muted); text-align: right; }
+
+  /* ── COMBUSTION ANIMATION ── */
+  @keyframes shake {
+    0%,100%{ transform: translateX(0); }
+    20%    { transform: translateX(-6px) rotate(-1deg); }
+    40%    { transform: translateX(6px) rotate(1deg); }
+    60%    { transform: translateX(-4px); }
+    80%    { transform: translateX(4px); }
   }
-  .stack-card-word {
-    font-size: 16px;
-    font-weight: 600;
-    letter-spacing: 4px;
+  @keyframes explodeOut {
+    0%   { transform: scale(1); opacity: 1; filter: brightness(1); }
+    25%  { transform: scale(1.06); filter: brightness(2) saturate(2); background: rgba(248,113,113,0.25); border-color: var(--red); }
+    60%  { transform: scale(0.95) translateY(4px); opacity: 0.6; }
+    100% { transform: scale(0.82) translateY(8px); opacity: 0; max-height: 0; padding-top: 0; padding-bottom: 0; margin: 0; border-width: 0; }
   }
-  .stack-card-meta {
-    font-size: 11px;
-    color: var(--text-muted);
-    text-align: right;
-  }
-  .stack-card-pts {
-    font-size: 12px;
-    color: var(--text-sub);
+  .stack-card.shaking  { animation: shake 0.35s ease; }
+  .stack-card.exploding { animation: explodeOut 0.5s ease forwards; overflow: hidden; }
+
+  /* Particle burst overlay */
+  #particle-canvas {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 999;
   }
 
-  @keyframes combust {
-    0%   { transform: scale(1); opacity: 1; }
-    30%  { transform: scale(1.04); background: var(--red-bg); border-color: var(--red-border); }
-    100% { transform: scale(0.88); opacity: 0; height: 0; padding: 0; margin: 0; border-width: 0; }
-  }
-  .stack-card.burning { animation: combust 0.4s ease forwards; }
-
-  /* Letter pills */
+  /* Pills */
   .letters-label { font-size: 10px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; }
-  #letter-pills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 20px;
-    min-height: 30px;
-  }
+  #letter-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; min-height: 28px; }
   .pill {
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    border: 0.5px solid var(--border);
-    background: var(--surface);
-    color: var(--text-sub);
+    padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600;
+    letter-spacing: 1px; border: 0.5px solid var(--border); background: var(--surface); color: var(--text-sub);
     transition: all 0.2s;
   }
-  .pill.hot { background: var(--amber-bg); border-color: var(--amber-border); color: var(--amber); }
-  .pill.danger { background: var(--red-bg); border-color: var(--red-border); color: var(--red); }
+  .pill.hot    { background: var(--amber-bg); border-color: var(--amber-border); color: var(--amber); }
+  .pill.danger { background: var(--red-bg);   border-color: var(--red-border);   color: var(--red); }
+
+  .swipe-hint { margin-top: 6px; font-size: 12px; color: var(--text-muted); text-align: center; }
 
   /* ── GAME OVER SCREEN ── */
   #screen-gameover {
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    text-align: center;
-    gap: 0;
+    align-items: center; justify-content: center;
+    min-height: 100vh; text-align: center; gap: 0; padding-top: 40px; padding-bottom: 40px;
   }
-  .go-eyebrow {
-    font-size: 11px;
-    letter-spacing: 4px;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    margin-bottom: 12px;
+  .go-eyebrow { font-size: 11px; letter-spacing: 4px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; }
+  .go-score   { font-size: 80px; font-weight: 700; letter-spacing: -3px; color: var(--text); line-height: 1; margin-bottom: 6px; }
+  .go-pts     { font-size: 14px; color: var(--text-muted); margin-bottom: 6px; }
+  .go-best    { font-size: 13px; color: var(--accent); margin-bottom: 20px; min-height: 20px; }
+  .go-reason  {
+    font-size: 14px; color: var(--text-sub); max-width: 280px; line-height: 1.6;
+    margin-bottom: 20px; padding: 14px; background: var(--surface);
+    border-radius: var(--radius); border: 0.5px solid var(--border);
   }
-  .go-score {
-    font-size: 80px;
-    font-weight: 700;
-    letter-spacing: -3px;
-    color: var(--text);
-    line-height: 1;
-    margin-bottom: 8px;
-  }
-  .go-pts { font-size: 14px; color: var(--text-muted); margin-bottom: 6px; }
-  .go-best { font-size: 13px; color: var(--accent); margin-bottom: 28px; }
-  .go-reason {
-    font-size: 14px;
-    color: var(--text-sub);
-    max-width: 280px;
-    line-height: 1.6;
-    margin-bottom: 28px;
-    padding: 16px;
-    background: var(--surface);
-    border-radius: var(--radius);
-    border: 0.5px solid var(--border);
-  }
-  .go-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 10px;
-    width: 100%;
-    margin-bottom: 28px;
-  }
-  .go-stat {
-    background: var(--surface);
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px 8px;
-  }
+  .go-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; width: 100%; margin-bottom: 20px; }
+  .go-stat { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 12px 8px; }
   .go-stat-val { font-size: 22px; font-weight: 700; color: var(--text); }
-  .go-stat-lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+  .go-stat-lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 3px; }
+
+  /* Share card */
+  #share-card {
+    width: 100%; padding: 14px 16px; margin-bottom: 16px;
+    background: var(--surface); border: 0.5px solid var(--accent-border);
+    border-radius: var(--radius); text-align: left;
+  }
+  .share-card-label { font-size: 10px; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; margin-bottom: 8px; }
+  #share-text { font-size: 13px; color: var(--text-sub); line-height: 1.6; }
+  #btn-share {
+    width: 100%; padding: 14px; border-radius: var(--radius);
+    border: 0.5px solid var(--accent-border); background: var(--accent-bg);
+    color: var(--accent); font-size: 15px; font-weight: 600;
+    cursor: pointer; margin-bottom: 10px; transition: opacity 0.15s;
+  }
+  #btn-share:hover { opacity: 0.85; }
+  #btn-share.copied { background: var(--green-bg); border-color: var(--green-border); color: var(--green); }
 
   #btn-play-again {
-    width: 100%;
-    padding: 16px;
-    border-radius: var(--radius);
-    border: none;
-    background: var(--text);
-    color: var(--bg);
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-bottom: 12px;
-    transition: opacity 0.15s;
+    width: 100%; padding: 16px; border-radius: var(--radius); border: none;
+    background: var(--text); color: var(--bg); font-size: 16px; font-weight: 600;
+    cursor: pointer; margin-bottom: 10px; transition: opacity 0.15s;
   }
   #btn-play-again:hover { opacity: 0.88; }
   #btn-play-again:active { opacity: 0.75; transform: scale(0.98); }
-
   #btn-menu {
-    width: 100%;
-    padding: 14px;
-    border-radius: var(--radius);
-    border: 0.5px solid var(--border-strong);
-    background: transparent;
-    color: var(--text-sub);
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.15s;
+    width: 100%; padding: 14px; border-radius: var(--radius);
+    border: 0.5px solid var(--border-strong); background: transparent;
+    color: var(--text-sub); font-size: 14px; cursor: pointer; transition: all 0.15s;
   }
   #btn-menu:hover { border-color: rgba(255,255,255,0.25); color: var(--text); }
 
-  /* Swipe hint */
-  .swipe-hint {
-    margin-top: 10px;
-    font-size: 12px;
-    color: var(--text-muted);
+  /* Daily badge */
+  .daily-badge {
+    display: inline-block; padding: 3px 10px; border-radius: 20px;
+    background: var(--amber-bg); border: 0.5px solid var(--amber-border);
+    color: var(--amber); font-size: 11px; font-weight: 600;
+    letter-spacing: 1px; margin-bottom: 16px;
   }
 </style>
 </head>
 <body>
+<canvas id="particle-canvas"></canvas>
 
 <!-- START SCREEN -->
 <div id="screen-start" class="screen active">
   <div class="start-logo">Word Game</div>
   <div class="start-title">LAST<br><span>WORD</span></div>
 
+  <div class="diff-label">Difficulty</div>
+  <div class="diff-row">
+    <button class="diff-btn" data-diff="easy">Easy<small>6 slots · combust at 4</small></button>
+    <button class="diff-btn selected" data-diff="normal">Normal<small>5 slots · combust at 3</small></button>
+    <button class="diff-btn" data-diff="hard">Hard<small>4 slots · 5s timer</small></button>
+  </div>
+
   <div class="start-rules">
-    <div class="rule-item">
-      <div class="rule-num">1</div>
-      <div>A word appears. You decide: <strong>Keep</strong> it in your stack or <strong>Drop</strong> it forever.</div>
-    </div>
-    <div class="rule-item">
-      <div class="rule-num">2</div>
-      <div>If <strong>3 words in your stack share any letter</strong>, those words combust — you lose their points.</div>
-    </div>
-    <div class="rule-item">
-      <div class="rule-num">3</div>
-      <div>Your stack holds <strong>5 words max</strong>. Full stack with no room = game over.</div>
-    </div>
-    <div class="rule-item">
-      <div class="rule-num">4</div>
-      <div>Longer words earn more points. Keep your streak alive for bonus multipliers.</div>
-    </div>
+    <div class="rule-item"><div class="rule-num">1</div><div>A word appears. <strong>Keep</strong> it in your stack or <strong>Drop</strong> it forever.</div></div>
+    <div class="rule-item"><div class="rule-num">2</div><div>If words in your stack share a letter enough times → they <strong>combust</strong> and you lose points.</div></div>
+    <div class="rule-item"><div class="rule-num">3</div><div><span style="color:var(--red)">Red letters</span> = already dangerous. <span style="color:var(--amber)">Amber letters</span> = will become hot if kept.</div></div>
+    <div class="rule-item"><div class="rule-num">4</div><div>Stack limit varies by difficulty. Overflow = game over.</div></div>
   </div>
 
   <button id="btn-start">Play</button>
   <div class="keyboard-hint">Keyboard: <span class="key">K</span> keep &nbsp; <span class="key">D</span> drop</div>
+  <div style="margin-top:20px;font-size:11px;color:var(--text-muted);letter-spacing:2px;">v0.2</div>
 </div>
 
 <!-- GAME SCREEN -->
 <div id="screen-game" class="screen">
   <div class="game-header">
-    <div class="header-logo">Last Word</div>
+    <div>
+      <div class="header-logo">Last Word</div>
+      <div id="mode-badge" style="font-size:10px;color:var(--text-muted);margin-top:3px;letter-spacing:1px;"></div>
+    </div>
     <div class="stats-row">
       <div class="stat">
         <div class="stat-val" id="stat-streak">0</div>
@@ -469,6 +313,7 @@
     <button class="act-btn" id="btn-drop">✕ Drop</button>
   </div>
 
+  <div id="timer-wrap"><div id="timer-bar"></div></div>
   <div id="message-bar"></div>
 
   <div class="stack-header">
@@ -479,38 +324,35 @@
 
   <div class="letters-label">shared letters</div>
   <div id="letter-pills"></div>
-
-  <div class="swipe-hint">Swipe → to keep &nbsp;·&nbsp; Swipe ← to drop</div>
+  <div class="swipe-hint">Swipe → keep &nbsp;·&nbsp; ← drop</div>
 </div>
 
 <!-- GAME OVER SCREEN -->
 <div id="screen-gameover" class="screen">
+  <div id="daily-badge-go" class="daily-badge" style="display:none">📅 Daily Challenge</div>
   <div class="go-eyebrow">Game over</div>
   <div class="go-score" id="go-score">0</div>
   <div class="go-pts">points</div>
   <div class="go-best" id="go-best"></div>
   <div class="go-reason" id="go-reason"></div>
-
   <div class="go-stats">
-    <div class="go-stat">
-      <div class="go-stat-val" id="go-words">0</div>
-      <div class="go-stat-lbl">Words kept</div>
-    </div>
-    <div class="go-stat">
-      <div class="go-stat-val" id="go-combust">0</div>
-      <div class="go-stat-lbl">Combusts</div>
-    </div>
-    <div class="go-stat">
-      <div class="go-stat-val" id="go-maxstreak">0</div>
-      <div class="go-stat-lbl">Best streak</div>
-    </div>
+    <div class="go-stat"><div class="go-stat-val" id="go-words">0</div><div class="go-stat-lbl">Kept</div></div>
+    <div class="go-stat"><div class="go-stat-val" id="go-combust">0</div><div class="go-stat-lbl">Combusts</div></div>
+    <div class="go-stat"><div class="go-stat-val" id="go-maxstreak">0</div><div class="go-stat-lbl">Best streak</div></div>
   </div>
 
+  <div id="share-card">
+    <div class="share-card-label">Share your score</div>
+    <div id="share-text"></div>
+  </div>
+  <button id="btn-share">📋 Copy &amp; Share</button>
   <button id="btn-play-again">Play again</button>
   <button id="btn-menu">Main menu</button>
+  <div style="margin-top:16px;font-size:11px;color:var(--text-muted);letter-spacing:2px;">v0.2</div>
 </div>
 
 <script>
+// ── WORD LIST ──
 const WORDS = [
   "ARCH","AXIS","BARK","BELL","BOLD","BORN","CAMP","CAPE","CAVE","CHIP",
   "CLAN","CLAY","CLIP","CLUB","COAL","COAT","COIL","CORD","CORK","CORN",
@@ -545,107 +387,161 @@ const WORDS = [
   "VEIL","VEIN","VENT","VINE","VOID","VOLT","WADE","WAFT","WAKE","WANE",
   "WARP","WELD","WREN","YOKE","YORE","ZEAL","ZINC","ZONE",
   "BLAZE","BLOOM","BRAVE","BREAK","BRIDE","BRINE","BRINK","BROIL","BROOK",
-  "BROWN","BRUNT","BRUSH","BRUTE","CHARM","CHASE","CHASM","CHESS","CHEST",
-  "CHIME","CHURN","CLAMP","CLAMOR","CLASH","CLASP","CLASS","CLEAN","CLEAR",
-  "CLERK","CLIMB","CLING","CLOAK","CLOCK","CLONE","CLOSE","CLOTH","CLOUD",
-  "CLOUT","CRAVE","CRAWL","CRAZE","CREAK","CREEK","CREEP","CREST","CROAK",
-  "CROSS","CROWD","CROWN","CRUEL","CRUST","CRUX","DEPTH","DEVIL","DRAIN",
-  "DRAMA","DRAPE","DRAW","DREAD","DREAM","DRESS","DRIFT","DRILL","DRIVE",
-  "DRONE","DROOL","DROOP","DROSS","DROVE","PROWL","PRUNE","PSALM","PULSE",
-  "PURGE","QUILL","QUOTA","QUOTE","RAVEN","REACH","REALM","REBEL","REFER",
-  "REIGN","RELAX","REPEL","RIPEN","RIVAL","RIVET","ROAST","ROBIN","ROCKY",
-  "ROMAN","ROYAL","RUGBY","RULER","SABRE","SCALP","SCALD","SCALE","SCAMP",
-  "SCANT","SCAPE","SCARE","SCARF","SCENE","SCONE","SCOOP","SCOPE","SCORE",
-  "SCOUT","SCOWL","SCRAP","SCREW","SCRUB","SEIZE","SERVE","SEVEN","SHADE",
-  "SHAKE","SHALL","SHAME","SHAPE","SHARE","SHARK","SHARP","SHAVE","SHAWL",
-  "SHEAR","SHEEP","SHEER","SHELF","SHELL","SHIFT","SHINE","SHIRT","SHOCK",
-  "SHORE","SHORT","SHOUT","SHOVE","SIGHT","SILKY","SINCE","SIXTH","SIXTY",
-  "SIZED","SKATE","SKILL","SKIMP","SKIRT","SLACK","SLAIN","SLATE","SLEET",
-  "SLICE","SLIDE","SLOPE","SLOTH","SMART","SMASH","SMELL","SMELT","SMILE",
-  "SMITE","SMOKE","SNAIL","SNAKE","SNARE","SNEAK","SNORE","SNORT","SNOUT",
-  "SPACE","SPARK","SPAWN","SPEAK","SPEAR","SPELL","SPEND","SPIRE","SPITE",
-  "SPORE","SPORT","SPOUT","SPREE","SPRIG","SPUNK","SQUAD","SQUAT","SQUID",
-  "STACK","STAFF","STAIN","STAIR","STAKE","STALE","STALL","STANK","STARK",
-  "START","STASH","STAVE","STEAL","STEAM","STEEL","STEEP","STEER","STERN",
-  "STONE","STOOD","STORE","STORM","STORY","STRAP","STRAW","STRAY","STRIP",
-  "STRUM","STRUT","STUCK","STUNG","STUNK","STYLE","SUMMON","SWARM","SWEAR",
-  "SWEAT","SWEEP","SWEET","SWELL","SWEPT","SWIFT","SWILL","SWINE","SWING",
-  "SWOOP","SWORD","SWORE","SWORN","TABLE","TALON","TASTE","TAUNT","THORN",
-  "THOSE","THROB","THROW","THUMB","THUMP","TIGER","TINGE","TIRED","TITLE",
-  "TODAY","TOKEN","TORCH","TOTEM","TOUCH","TOUGH","TOWEL","TOWER","TOXIC",
-  "TRACE","TRACK","TRADE","TRAIL","TRAIN","TRAIT","TRAMP","TRAWL","TRENCH",
-  "TRIAL","TRIBE","TRICK","TROOP","TROTH","TROUT","TRUCE","TRUCK","TRULY",
-  "TRUMP","TRUNK","TRUST","TRUTH","TULIP","TUMID","TUNIC","TWIST","ULTRA",
-  "UNCLE","UNDER","UNDUE","UNION","UNITY","UNTIL","UPPER","USHER","UTTER",
+  "BROWN","BRUNT","BRUSH","BRUTE","CHARM","CHASE","CHASM","CHEST","CHIME",
+  "CHURN","CLAMP","CLASH","CLASP","CLASS","CLEAN","CLEAR","CLERK","CLIMB",
+  "CLING","CLOAK","CLOCK","CLONE","CLOSE","CLOTH","CLOUD","CLOUT","CRAVE",
+  "CRAWL","CRAZE","CREAK","CREEK","CREEP","CREST","CROAK","CROSS","CROWD",
+  "CROWN","CRUEL","CRUST","DEPTH","DRAIN","DRAMA","DRAPE","DREAD","DREAM",
+  "DRESS","DRIFT","DRILL","DRIVE","DRONE","DROOL","DROOP","PROWL","PRUNE",
+  "PULSE","PURGE","QUILL","QUOTA","RAVEN","REACH","REALM","REBEL","REIGN",
+  "RELAX","REPEL","RIPEN","RIVAL","RIVET","ROAST","ROCKY","ROYAL","RULER",
+  "SABRE","SCALP","SCALD","SCALE","SCAMP","SCANT","SCARE","SCARF","SCENE",
+  "SCONE","SCOOP","SCOPE","SCORE","SCOUT","SCOWL","SCRAP","SCREW","SCRUB",
+  "SEIZE","SERVE","SHADE","SHAKE","SHALL","SHAME","SHAPE","SHARE","SHARK",
+  "SHARP","SHAVE","SHAWL","SHEAR","SHEEP","SHEER","SHELF","SHELL","SHIFT",
+  "SHINE","SHIRT","SHOCK","SHORE","SHORT","SHOUT","SHOVE","SIGHT","SINCE",
+  "SKATE","SKILL","SKIMP","SKIRT","SLACK","SLATE","SLICE","SLIDE","SLOPE",
+  "SLOTH","SMART","SMASH","SMELL","SMILE","SMOKE","SNAIL","SNAKE","SNARE",
+  "SNEAK","SNORE","SNOUT","SPACE","SPARK","SPAWN","SPEAK","SPEAR","SPELL",
+  "SPEND","SPIRE","SPITE","SPORE","SPORT","SPOUT","SPREE","STACK","STAFF",
+  "STAIN","STAIR","STAKE","STALE","STALL","STARK","START","STASH","STAVE",
+  "STEAL","STEAM","STEEL","STEEP","STEER","STERN","STONE","STORE","STORM",
+  "STORY","STRAP","STRAW","STRAY","STRIP","STRUT","STUCK","STYLE","SWARM",
+  "SWEAR","SWEAT","SWEEP","SWEET","SWELL","SWIFT","SWING","SWOOP","SWORD",
+  "TABLE","TALON","TASTE","TAUNT","THORN","THROB","THROW","THUMB","THUMP",
+  "TIGER","TITLE","TORCH","TOTEM","TOUCH","TOUGH","TOWER","TOXIC","TRACE",
+  "TRACK","TRADE","TRAIL","TRAIN","TRAIT","TRAMP","TRENCH","TRIAL","TRIBE",
+  "TRICK","TROOP","TROUT","TRUCE","TRUCK","TRULY","TRUNK","TRUST","TRUTH",
+  "TULIP","TUNIC","TWIST","ULTRA","UNION","UNITY","UPPER","USHER","UTTER",
   "VALOR","VALVE","VAPOR","VAULT","VERSE","VIGOR","VISOR","VIXEN","VOCAL",
-  "VOICE","VOMIT","VOTER","VOUCH","VOWEL","WAGER","WALTZ","WATCH","WATER",
-  "WEDGE","WEIGH","WHEAT","WHEEL","WHERE","WHICH","WHILE","WHIRL","WHISK",
-  "WITCH","WRATH","WRIST","WROTE","YACHT","YEARN","YIELD","YOUNG","YOURS"
-].filter((w, i, a) => a.indexOf(w) === i);
+  "VOICE","VOTER","VOUCH","VOWEL","WAGER","WALTZ","WATCH","WATER","WEDGE",
+  "WEIGH","WHEAT","WHEEL","WITCH","WRATH","WRIST","WROTE","YACHT","YEARN",
+  "YIELD","YOUNG"
+].filter((w,i,a) => a.indexOf(w)===i);
+
+// ── DIFFICULTY CONFIG ──
+const DIFF = {
+  easy:   { maxStack: 6, combustAt: 4, timer: 0,  label: 'EASY'   },
+  normal: { maxStack: 5, combustAt: 3, timer: 0,  label: 'NORMAL' },
+  hard:   { maxStack: 4, combustAt: 3, timer: 5,  label: 'HARD'   },
+};
+let difficulty = 'normal';
 
 // ── STATE ──
-let stack = [], score = 0, streak = 0, best = 0;
-let currentWord = "", wordQueue = [];
-let gameActive = false;
-let totalWordsKept = 0, totalCombust = 0, maxStreak = 0;
-// Touch/swipe
-let touchStartX = 0, touchStartY = 0;
+let stack=[], score=0, streak=0, best=0;
+let currentWord='', wordQueue=[];
+let gameActive=false;
+let totalWordsKept=0, totalCombust=0, maxStreak=0;
+let timerInterval=null, timerStart=0;
+let isDaily=false;
+let touchStartX=0, touchStartY=0;
 
-// ── DOM ──
-const screens = {
-  start: document.getElementById('screen-start'),
-  game:  document.getElementById('screen-game'),
-  over:  document.getElementById('screen-gameover')
-};
+// ── PARTICLE CANVAS ──
+const canvas = document.getElementById('particle-canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+window.addEventListener('resize', () => { canvas.width=window.innerWidth; canvas.height=window.innerHeight; });
+let particles = [];
+function spawnParticles(x, y) {
+  const colors = ['#f87171','#fbbf24','#f97316','#fb923c'];
+  for (let i = 0; i < 28; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 2 + Math.random() * 5;
+    particles.push({
+      x, y,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed - 2,
+      life: 1, decay: 0.025 + Math.random() * 0.02,
+      size: 3 + Math.random() * 5,
+      color: colors[Math.floor(Math.random() * colors.length)]
+    });
+  }
+  requestAnimationFrame(animateParticles);
+}
+function animateParticles() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles = particles.filter(p => p.life > 0);
+  particles.forEach(p => {
+    p.x += p.vx; p.y += p.vy; p.vy += 0.18;
+    p.life -= p.decay; p.vx *= 0.97;
+    ctx.save();
+    ctx.globalAlpha = Math.max(0, p.life);
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI*2);
+    ctx.fill();
+    ctx.restore();
+  });
+  if (particles.length > 0) requestAnimationFrame(animateParticles);
+  else ctx.clearRect(0,0,canvas.width,canvas.height);
+}
 
-function showScreen(name) {
-  Object.values(screens).forEach(s => s.classList.remove('active'));
-  screens[name].classList.add('active');
+// ── DAILY SEED ──
+function getDailySeed() {
+  const d = new Date();
+  return d.getFullYear()*10000 + (d.getMonth()+1)*100 + d.getDate();
+}
+function seededShuffle(arr, seed) {
+  const a = [...arr];
+  let s = seed;
+  for (let i = a.length-1; i > 0; i--) {
+    s = (s * 1664525 + 1013904223) & 0xffffffff;
+    const j = Math.abs(s) % (i+1);
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
 }
 
 // ── WORD ENGINE ──
 function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
   return a;
 }
-function refillQueue() { wordQueue = shuffle(WORDS); }
+function refillQueue() {
+  wordQueue = isDaily ? seededShuffle(WORDS, getDailySeed()) : shuffle(WORDS);
+}
 function nextWord() {
-  if (wordQueue.length === 0) refillQueue();
+  if (wordQueue.length===0) refillQueue();
   currentWord = wordQueue.pop();
   renderWord();
+  startTimer();
 }
 
 // ── LETTER ANALYSIS ──
+// Returns a map of letter -> array of stack indices containing that letter
 function getLetterMap() {
   const map = {};
   stack.forEach((word, idx) => {
-    [...new Set(word.split(""))].forEach(ch => {
-      if (!map[ch]) map[ch] = [];
+    [...new Set(word.split(''))].forEach(ch => {
+      if (!map[ch]) map[ch]=[];
       map[ch].push(idx);
     });
   });
   return map;
 }
-function getDangerSet(map) {
-  return new Set(
-    Object.entries(map)
-      .filter(([, idxs]) => idxs.length >= 2)
-      .map(([ch]) => ch)
-  );
+// Letters already shared between combustAt-1 or more stack words → RED (danger now)
+// Letters present in at least 1 stack word → AMBER (will become hot if kept)
+function getLetterClasses(map, combustAt) {
+  const danger  = new Set(); // already at combustAt-1 (one more = boom)
+  const warning = new Set(); // present in stack but not yet critical
+  Object.entries(map).forEach(([ch, idxs]) => {
+    if (idxs.length >= combustAt - 1) danger.add(ch);
+    else if (idxs.length >= 1) warning.add(ch);
+  });
+  return { danger, warning };
 }
 
 // ── RENDER ──
 function renderWord() {
   const el = document.getElementById('word-display');
   const map = getLetterMap();
-  const danger = getDangerSet(map);
-  el.innerHTML = currentWord.split("").map(ch =>
-    `<span class="${danger.has(ch) ? 'ch-danger' : 'ch-safe'}">${ch}</span>`
-  ).join('<span style="color:#333;font-size:20px;">·</span>');
+  const cfg = DIFF[difficulty];
+  const { danger, warning } = getLetterClasses(map, cfg.combustAt);
+  el.innerHTML = currentWord.split('').map(ch => {
+    const cls = danger.has(ch) ? 'ch-danger' : warning.has(ch) ? 'ch-warning' : 'ch-safe';
+    return `<span class="${cls}">${ch}</span>`;
+  }).join('<span style="color:#2a2a2a;font-size:20px">·</span>');
   el.classList.remove('pop');
   void el.offsetWidth;
   el.classList.add('pop');
@@ -653,59 +549,66 @@ function renderWord() {
 
 function renderCapacity() {
   const dots = document.getElementById('cap-dots');
+  const max = DIFF[difficulty].maxStack;
   dots.innerHTML = '';
-  for (let i = 0; i < 5; i++) {
+  for (let i=0; i<max; i++) {
     const d = document.createElement('div');
-    d.className = 'cap-dot' + (i < stack.length ? (stack.length >= 4 ? ' danger' : ' filled') : '');
+    let cls = 'cap-dot';
+    if (i < stack.length) {
+      cls += stack.length >= max ? ' danger' : stack.length >= max-1 ? ' warn' : ' filled';
+    }
+    d.className = cls;
     dots.appendChild(d);
   }
 }
 
 function renderStack() {
   const map = getLetterMap();
-  const danger = getDangerSet(map);
+  const cfg = DIFF[difficulty];
+  const { danger, warning } = getLetterClasses(map, cfg.combustAt);
   const list = document.getElementById('stack-list');
   list.innerHTML = '';
   stack.forEach((word, idx) => {
-    const sharedHere = [...new Set(word.split(""))].filter(ch => danger.has(ch));
+    const sharedHere = [...new Set(word.split(''))].filter(ch => danger.has(ch) || warning.has(ch));
     const card = document.createElement('div');
     card.className = 'stack-card' + (sharedHere.length > 0 ? ' warned' : '');
     card.id = `sc-${idx}`;
 
     const wordEl = document.createElement('div');
     wordEl.className = 'stack-card-word';
-    wordEl.innerHTML = word.split("").map(ch =>
-      danger.has(ch) ? `<span style="color:var(--amber)">${ch}</span>` : ch
-    ).join('');
+    wordEl.innerHTML = word.split('').map(ch => {
+      if (danger.has(ch))  return `<span style="color:var(--red)">${ch}</span>`;
+      if (warning.has(ch)) return `<span style="color:var(--amber)">${ch}</span>`;
+      return ch;
+    }).join('');
 
     const metaEl = document.createElement('div');
     metaEl.className = 'stack-card-meta';
-    metaEl.textContent = sharedHere.length ? `shared: ${sharedHere.join(' ')}` : `${word.length * 10} pts`;
+    const sharedLetters = [...new Set(word.split(''))].filter(ch => map[ch] && map[ch].length >= 2);
+    metaEl.textContent = sharedLetters.length ? `shared: ${sharedLetters.join(' ')}` : `${word.length*10} pts`;
 
     card.appendChild(wordEl);
     card.appendChild(metaEl);
     list.appendChild(card);
   });
-
   renderCapacity();
-  renderPills(map, danger);
+  renderPills(map, cfg.combustAt);
 }
 
-function renderPills(map, danger) {
+function renderPills(map, combustAt) {
   const bar = document.getElementById('letter-pills');
   bar.innerHTML = '';
-  const letters = Object.keys(map).sort();
-  letters.forEach(ch => {
+  Object.keys(map).sort().forEach(ch => {
     const count = map[ch].length;
     if (count < 2) return;
     const pill = document.createElement('div');
-    pill.className = 'pill' + (count >= 3 ? ' danger' : ' hot');
+    pill.className = 'pill' + (count >= combustAt ? ' danger' : ' hot');
     pill.textContent = `${ch} ×${count}`;
     bar.appendChild(pill);
   });
 }
 
-function setMessage(msg, type = '') {
+function setMessage(msg, type='') {
   const el = document.getElementById('message-bar');
   el.textContent = msg;
   el.className = type;
@@ -716,73 +619,109 @@ function updateStats() {
   document.getElementById('stat-streak').textContent = streak;
 }
 
+// ── TIMER (Hard mode) ──
+function startTimer() {
+  const cfg = DIFF[difficulty];
+  const wrap = document.getElementById('timer-wrap');
+  const bar  = document.getElementById('timer-bar');
+  clearInterval(timerInterval);
+  if (cfg.timer === 0) { wrap.style.display='none'; return; }
+  wrap.style.display = 'block';
+  bar.style.transition = 'none';
+  bar.style.width = '100%';
+  bar.className = '';
+  void bar.offsetWidth;
+  timerStart = Date.now();
+  const duration = cfg.timer * 1000;
+  bar.style.transition = `width ${duration}ms linear`;
+  bar.style.width = '0%';
+  timerInterval = setTimeout(() => {
+    if (gameActive) {
+      dropWord();
+      setMessage('⏱ Time up -- word dropped!', 'bad');
+    }
+  }, duration);
+  setTimeout(() => { if(gameActive) bar.classList.add('urgent'); }, duration * 0.5);
+}
+function clearTimer() { clearInterval(timerInterval); }
+
 // ── GAME LOGIC ──
 function calcPoints(word) {
-  const base = word.length * 10;
-  const bonus = Math.floor(streak * 1.5);
-  return base + bonus;
+  return word.length * 10 + Math.floor(streak * 1.5);
 }
 
 function checkCombust() {
   const map = getLetterMap();
+  const cfg = DIFF[difficulty];
   const toBlast = new Set();
+  const combustLetters = [];
 
-  Object.entries(map).forEach(([, idxs]) => {
-    if (idxs.length >= 3) idxs.forEach(i => toBlast.add(i));
+  Object.entries(map).forEach(([ch, idxs]) => {
+    if (idxs.length >= cfg.combustAt) {
+      combustLetters.push(ch);
+      idxs.forEach(i => toBlast.add(i));
+    }
   });
 
   if (toBlast.size === 0) return false;
 
   const blastWords = [...toBlast].map(i => stack[i]);
-  const lostPts = blastWords.reduce((s, w) => s + w.length * 10, 0);
+  const lostPts = blastWords.reduce((s,w) => s + w.length*10, 0);
   totalCombust++;
 
+  // Shake first, then explode
   [...toBlast].forEach(idx => {
     const card = document.getElementById(`sc-${idx}`);
-    if (card) card.classList.add('burning');
+    if (card) {
+      card.classList.add('shaking');
+      setTimeout(() => {
+        card.classList.remove('shaking');
+        card.classList.add('exploding');
+        // Spawn particles at card position
+        const rect = card.getBoundingClientRect();
+        spawnParticles(rect.left + rect.width/2, rect.top + rect.height/2);
+      }, 360);
+    }
   });
 
   setTimeout(() => {
-    stack = stack.filter((_, i) => !toBlast.has(i));
+    stack = stack.filter((_,i) => !toBlast.has(i));
     renderStack();
-    setMessage(`💥 ${blastWords.join(', ')} combusted — −${lostPts} pts`, 'bad');
+    const letterList = combustLetters.join(', ');
+    setMessage('💥 ' + blastWords.join(' · ') + ' shared "' + letterList + '" -- -' + lostPts + ' pts', 'bad');
     score = Math.max(0, score - lostPts);
     streak = 0;
     updateStats();
-  }, 420);
+  }, 900);
 
   return true;
 }
 
 function keepWord() {
   if (!gameActive || !currentWord) return;
-
-  if (stack.length >= 5) {
-    triggerGameOver('Stack overflow — no room for another word.');
+  clearTimer();
+  const cfg = DIFF[difficulty];
+  if (stack.length >= cfg.maxStack) {
+    triggerGameOver('Stack overflow -- no room for another word.');
     return;
   }
-
   stack.push(currentWord);
   totalWordsKept++;
   streak++;
   if (streak > maxStreak) maxStreak = streak;
-
   const pts = calcPoints(currentWord);
   score += pts;
   if (score > best) best = score;
   updateStats();
   renderStack();
-
   const combusted = checkCombust();
-  if (!combusted) {
-    setMessage(`+${pts}`, 'good');
-  }
-
-  setTimeout(() => nextWord(), combusted ? 480 : 100);
+  if (!combusted) setMessage(`+${pts}`, 'good');
+  setTimeout(() => nextWord(), combusted ? 980 : 120);
 }
 
 function dropWord() {
   if (!gameActive || !currentWord) return;
+  clearTimer();
   streak = 0;
   updateStats();
   setMessage(`Dropped "${currentWord}"`, '');
@@ -791,73 +730,107 @@ function dropWord() {
 
 function triggerGameOver(reason) {
   gameActive = false;
+  clearTimer();
   document.getElementById('go-score').textContent = score;
   document.getElementById('go-reason').textContent = reason;
   document.getElementById('go-words').textContent = totalWordsKept;
   document.getElementById('go-combust').textContent = totalCombust;
   document.getElementById('go-maxstreak').textContent = maxStreak;
+  document.getElementById('daily-badge-go').style.display = isDaily ? 'inline-block' : 'none';
 
   const bestEl = document.getElementById('go-best');
-  if (score >= best && score > 0) {
-    bestEl.textContent = '🏆 New personal best!';
-  } else if (best > 0) {
-    bestEl.textContent = `Best: ${best}`;
-  } else {
-    bestEl.textContent = '';
-  }
+  bestEl.textContent = (score >= best && score > 0) ? '🏆 New personal best!' : (best > 0 ? `Best: ${best}` : '');
+
+  // Share text
+  const diffLabel = DIFF[difficulty].label;
+  const shareMsg = `I scored ${score} in LAST WORD (${diffLabel})!\nCan you beat me? 🔥\nhttps://hemanth-sagi.github.io/last-word/`;
+  document.getElementById('share-text').textContent = shareMsg;
 
   showScreen('over');
 }
 
-function startGame() {
-  stack = [];
-  score = 0;
-  streak = 0;
-  totalWordsKept = 0;
-  totalCombust = 0;
-  maxStreak = 0;
-  gameActive = true;
+function startGame(daily=false) {
+  isDaily = daily;
+  stack=[]; score=0; streak=0;
+  totalWordsKept=0; totalCombust=0; maxStreak=0;
+  gameActive=true;
+  particles=[];
+  ctx.clearRect(0,0,canvas.width,canvas.height);
 
-  document.getElementById('stat-score').textContent = '0';
-  document.getElementById('stat-streak').textContent = '0';
-  document.getElementById('stack-list').innerHTML = '';
-  document.getElementById('letter-pills').innerHTML = '';
-  document.getElementById('message-bar').textContent = '';
+  document.getElementById('stat-score').textContent='0';
+  document.getElementById('stat-streak').textContent='0';
+  document.getElementById('stack-list').innerHTML='';
+  document.getElementById('letter-pills').innerHTML='';
+  document.getElementById('message-bar').textContent='';
+  document.getElementById('mode-badge').textContent = DIFF[difficulty].label + (daily?' · DAILY':'');
   renderCapacity();
-
   refillQueue();
   nextWord();
   showScreen('game');
 }
 
-// ── EVENTS ──
-document.getElementById('btn-start').addEventListener('click', startGame);
-document.getElementById('btn-play-again').addEventListener('click', startGame);
-document.getElementById('btn-menu').addEventListener('click', () => showScreen('start'));
+// ── SCREENS ──
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+name).classList.add('active');
+}
+
+// ── SHARE ──
+document.getElementById('btn-share').addEventListener('click', () => {
+  const txt = document.getElementById('share-text').textContent;
+  const btn = document.getElementById('btn-share');
+  if (navigator.share) {
+    navigator.share({ text: txt }).catch(()=>{});
+  } else {
+    navigator.clipboard.writeText(txt).then(() => {
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent='📋 Copy & Share'; btn.classList.remove('copied'); }, 2000);
+    }).catch(() => {
+      // fallback
+      const ta = document.createElement('textarea');
+      ta.value = txt; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+      btn.textContent = '✓ Copied!'; btn.classList.add('copied');
+      setTimeout(() => { btn.textContent='📋 Copy & Share'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+});
+
+// ── DIFFICULTY BUTTONS ──
+document.querySelectorAll('.diff-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.diff-btn').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');
+    difficulty = btn.dataset.diff;
+  });
+});
+
+// ── BUTTON EVENTS ──
+document.getElementById('btn-start').addEventListener('click', () => startGame(false));
+document.getElementById('btn-play-again').addEventListener('click', () => startGame(isDaily));
+document.getElementById('btn-menu').addEventListener('click', () => { clearTimer(); showScreen('start'); });
 document.getElementById('btn-keep').addEventListener('click', keepWord);
 document.getElementById('btn-drop').addEventListener('click', dropWord);
 
+// ── KEYBOARD ──
 document.addEventListener('keydown', e => {
   if (!gameActive) return;
-  if (e.key === 'k' || e.key === 'K' || e.key === 'ArrowRight') keepWord();
-  if (e.key === 'd' || e.key === 'D' || e.key === 'ArrowLeft') dropWord();
+  if (e.key==='k'||e.key==='K'||e.key==='ArrowRight') keepWord();
+  if (e.key==='d'||e.key==='D'||e.key==='ArrowLeft')  dropWord();
 });
 
-// Touch swipe
-document.getElementById('screen-game').addEventListener('touchstart', e => {
-  touchStartX = e.touches[0].clientX;
-  touchStartY = e.touches[0].clientY;
-}, { passive: true });
-
-document.getElementById('screen-game').addEventListener('touchend', e => {
-  if (!gameActive) return;
-  const dx = e.changedTouches[0].clientX - touchStartX;
-  const dy = e.changedTouches[0].clientY - touchStartY;
-  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
-    if (dx > 0) keepWord();
-    else dropWord();
-  }
-}, { passive: true });
+// ── SWIPE ──
+document.getElementById('screen-game').addEventListener('touchstart', e=>{
+  touchStartX=e.touches[0].clientX; touchStartY=e.touches[0].clientY;
+},{passive:true});
+document.getElementById('screen-game').addEventListener('touchend', e=>{
+  if(!gameActive) return;
+  const dx=e.changedTouches[0].clientX-touchStartX;
+  const dy=e.changedTouches[0].clientY-touchStartY;
+  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>50){ dx>0?keepWord():dropWord(); }
+},{passive:true});
 </script>
 </body>
 </html>
