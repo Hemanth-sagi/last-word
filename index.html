@@ -281,7 +281,7 @@
 
   <button id="btn-start">Play</button>
   <div class="keyboard-hint">Keyboard: <span class="key">K</span> keep &nbsp; <span class="key">D</span> drop</div>
-  <div style="margin-top:20px;font-size:11px;color:var(--text-muted);letter-spacing:2px;">v0.3</div>
+  <div style="margin-top:20px;font-size:11px;color:var(--text-muted);letter-spacing:2px;">v0.4</div>
 </div>
 
 <!-- GAME SCREEN -->
@@ -348,7 +348,7 @@
   <button id="btn-share">📋 Copy &amp; Share</button>
   <button id="btn-play-again">Play again</button>
   <button id="btn-menu">Main menu</button>
-  <div style="margin-top:16px;font-size:11px;color:var(--text-muted);letter-spacing:2px;">v0.3</div>
+  <div style="margin-top:16px;font-size:11px;color:var(--text-muted);letter-spacing:2px;">v0.4</div>
 </div>
 
 <script>
@@ -752,10 +752,10 @@ function triggerGameOver(reason) {
 
   // Share text
   const diffLabel = DIFF[difficulty].label;
-  const shareMsg = `I scored ${score} in LAST WORD (${diffLabel})!\nCan you beat me? 🔥\nhttps://hemanth-sagi.github.io/last-word/`;
+  const shareMsg = `I scored ${score} in LAST WORD (${diffLabel})!\nCan you beat me? 🔥\nhttps://last-word-play.netlify.app/`;
   document.getElementById('share-text').textContent = shareMsg;
 
-  showScreen('over');
+  showScreen('gameover');
 }
 
 function startGame(daily=false) {
