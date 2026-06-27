@@ -281,7 +281,7 @@
 
   <button id="btn-start">Play</button>
   <div class="keyboard-hint">Keyboard: <span class="key">K</span> keep &nbsp; <span class="key">D</span> drop</div>
-  <div style="margin-top:20px;font-size:11px;color:var(--text-muted);letter-spacing:2px;">v0.2</div>
+  <div style="margin-top:20px;font-size:11px;color:var(--text-muted);letter-spacing:2px;">v0.3</div>
 </div>
 
 <!-- GAME SCREEN -->
@@ -348,7 +348,7 @@
   <button id="btn-share">📋 Copy &amp; Share</button>
   <button id="btn-play-again">Play again</button>
   <button id="btn-menu">Main menu</button>
-  <div style="margin-top:16px;font-size:11px;color:var(--text-muted);letter-spacing:2px;">v0.2</div>
+  <div style="margin-top:16px;font-size:11px;color:var(--text-muted);letter-spacing:2px;">v0.3</div>
 </div>
 
 <script>
@@ -651,47 +651,53 @@ function calcPoints(word) {
 }
 
 function checkCombust() {
-  const map = getLetterMap();
-  const cfg = DIFF[difficulty];
-  const toBlast = new Set();
-  const combustLetters = [];
+  var map = getLetterMap();
+  var cfg = DIFF[difficulty];
+  var toBlast = new Set();
+  var combustLetters = [];
 
-  Object.entries(map).forEach(([ch, idxs]) => {
+  Object.entries(map).forEach(function(entry) {
+    var ch = entry[0], idxs = entry[1];
     if (idxs.length >= cfg.combustAt) {
       combustLetters.push(ch);
-      idxs.forEach(i => toBlast.add(i));
+      idxs.forEach(function(i) { toBlast.add(i); });
     }
   });
 
   if (toBlast.size === 0) return false;
 
-  const blastWords = [...toBlast].map(i => stack[i]);
-  const lostPts = blastWords.reduce((s,w) => s + w.length*10, 0);
+  var blastWords = Array.from(toBlast).map(function(i) { return stack[i]; });
+  var lostPts = blastWords.reduce(function(s,w) { return s + w.length*10; }, 0);
   totalCombust++;
 
-  // Shake first, then explode
-  [...toBlast].forEach(idx => {
-    const card = document.getElementById(`sc-${idx}`);
+  // Freeze input for entire animation window — prevents race with nextWord timeout
+  gameActive = false;
+
+  Array.from(toBlast).forEach(function(idx) {
+    var card = document.getElementById('sc-' + idx);
     if (card) {
       card.classList.add('shaking');
-      setTimeout(() => {
+      setTimeout(function() {
         card.classList.remove('shaking');
         card.classList.add('exploding');
-        // Spawn particles at card position
-        const rect = card.getBoundingClientRect();
-        spawnParticles(rect.left + rect.width/2, rect.top + rect.height/2);
+        var rect = card.getBoundingClientRect();
+        spawnParticles(rect.left + rect.width / 2, rect.top + rect.height / 2);
       }, 360);
     }
   });
 
-  setTimeout(() => {
-    stack = stack.filter((_,i) => !toBlast.has(i));
-    renderStack();
-    const letterList = combustLetters.join(', ');
-    setMessage('💥 ' + blastWords.join(' · ') + ' shared "' + letterList + '" -- -' + lostPts + ' pts', 'bad');
+  // After animation: update state, then resume with next word
+  setTimeout(function() {
+    stack = stack.filter(function(_, i) { return !toBlast.has(i); });
     score = Math.max(0, score - lostPts);
     streak = 0;
     updateStats();
+    renderStack();
+    var letterList = combustLetters.join(', ');
+    setMessage('💥 ' + blastWords.join(' · ') + ' shared "' + letterList + '" -- -' + lostPts + ' pts', 'bad');
+    // Resume after message is shown
+    gameActive = true;
+    setTimeout(function() { nextWord(); }, 700);
   }, 900);
 
   return true;
@@ -714,9 +720,12 @@ function keepWord() {
   if (score > best) best = score;
   updateStats();
   renderStack();
-  const combusted = checkCombust();
-  if (!combusted) setMessage(`+${pts}`, 'good');
-  setTimeout(() => nextWord(), combusted ? 980 : 120);
+  var combusted = checkCombust();
+  if (!combusted) {
+    setMessage('+' + pts, 'good');
+    setTimeout(function() { nextWord(); }, 120);
+  }
+  // If combusted, checkCombust() owns the nextWord() call after animation finishes
 }
 
 function dropWord() {
